@@ -12,6 +12,7 @@ public class CleaningTank : MonoBehaviour
     [SerializeField] private GameObject foodHolder;
     [SerializeField] private GameObject fishHolder;
     [SerializeField] private GameObject mainMenu;
+    [SerializeField] private GameObject canvas;
 
     [Header("Cleaning References")]
     [SerializeField] private TextMeshProUGUI cleaningCostsText;
@@ -109,9 +110,9 @@ public class CleaningTank : MonoBehaviour
         alreadyPaid = true;
         cleaningButton.interactable = false;
 
-        // Reducts cleaningCostAmount from money and increases cleaningCostAmount * 2
+        // Reducts cleaningCostAmount from money and increases cleaningCostAmount * 4
         shopManager.GetComponent<Shop>().money -= cleaningCostAmount;
-        cleaningCostAmount = cleaningCostAmount * 2;
+        cleaningCostAmount = cleaningCostAmount * 4;
         cleaningCostsText.text = "Next cleaning is due soon";
     }
 
@@ -160,6 +161,11 @@ public class CleaningTank : MonoBehaviour
         gameOverMenu.SetActive(false);
         mainMenu.SetActive(true);
 
+        ResetGame();
+    }
+
+    public void ResetGame()
+    {
         foreach (Transform child in foodHolder.transform)
         {
             Destroy(child.gameObject);
@@ -190,6 +196,7 @@ public class CleaningTank : MonoBehaviour
 
     public void PlayGame()
     {
+        canvas.GetComponent<PauseMenu>().canActivate = true;
         shopManager.GetComponent<Shop>().gameOverActivated = false;
         SetButtons();
         mainMenu.SetActive(false);
