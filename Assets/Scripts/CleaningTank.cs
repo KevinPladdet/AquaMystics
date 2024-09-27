@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -149,7 +149,7 @@ public class CleaningTank : MonoBehaviour
         totalMoneySpentText.text = "" + shopManager.GetComponent<Shop>().totalMoneySpent.ToString("F2") + "$";
 
         shopManager.GetComponent<PermanentShop>().tritonTokensAmount += totalTritonTokensEarned;
-        permanentCurrencyEarnedText.text = "" + totalTritonTokensEarned.ToString("F2") + "$";
+        permanentCurrencyEarnedText.text = "" + totalTritonTokensEarned.ToString("F2") + "⎊";
 
         // Save tritonTokensAmount to PlayerPrefs
         PlayerPrefs.SetFloat("tritonTokens", shopManager.GetComponent<PermanentShop>().tritonTokensAmount);
