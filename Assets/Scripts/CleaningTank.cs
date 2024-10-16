@@ -98,7 +98,7 @@ public class CleaningTank : MonoBehaviour
             {
                 cleaningButton.interactable = false;
             }
-            else
+            else if (!alreadyPaid)
             {
                 cleaningButton.interactable = true;
             }
@@ -118,12 +118,13 @@ public class CleaningTank : MonoBehaviour
 
     void ContinueTimer()
     {
-        cleaningButton.interactable = true;
         cleaningCostsText.text = "Cleaning Costs: " + cleaningCostAmount + "$";
 
         // Reset remaining time to 120s
         remainingTime = gameTime;
         timerSlider.value = remainingTime;
+
+        alreadyPaid = false;
     }
 
     public void GameOver()

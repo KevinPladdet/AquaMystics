@@ -221,7 +221,7 @@ public class FishMovement : MonoBehaviour
                 if (actualFishSize >= 100 || actualFishSize <= 0)
                 {
                     fishAlive = false;
-                    shopManager.GetComponent<Shop>().moneyPerSecond -= fish.givesMoney;
+                    UpdateMoneyPerSecond(-fish.givesMoney);
                     FishDies();
                 }
 
@@ -248,13 +248,11 @@ public class FishMovement : MonoBehaviour
     // Adds money every second
     IEnumerator PassiveIncome()
     {
-        while (true)
+        while (fishAlive)
         {
-            if (fishAlive)
-            {
-                shopManager.GetComponent<Shop>().money += fish.givesMoney;
-                shopManager.GetComponent<Shop>().totalMoneyEarned += fish.givesMoney;
-            }
+            shopManager.GetComponent<Shop>().money += fish.givesMoney;
+            shopManager.GetComponent<Shop>().totalMoneyEarned += fish.givesMoney;
+
             yield return new WaitForSeconds(1f);
         }
     }
@@ -304,7 +302,7 @@ public class FishMovement : MonoBehaviour
     {
         StartCoroutine(RotateFishUpsideDown());
     }
-
+    
     private IEnumerator RotateFishUpsideDown()
     {
         float rotationTime = 0.5f;
@@ -365,7 +363,7 @@ public class FishMovement : MonoBehaviour
         if (actualFishSize >= 100 || actualFishSize <= 0)
         {
             fishAlive = false;
-            shopManager.GetComponent<Shop>().moneyPerSecond -= fish.givesMoney;
+            UpdateMoneyPerSecond(-fish.givesMoney);
             FishDies();
         }
         else
@@ -421,8 +419,9 @@ public class FishMovement : MonoBehaviour
         // If hunter is close enough, eat fish
         if (Vector2.Distance(transform.position, targetPosition) < 0.5f)
         {
-            shopManager.GetComponent<Shop>().moneyPerSecond -= targetFish.fish.givesMoney;
-            
+            targetFish.fishAlive = false;
+            UpdateMoneyPerSecond(-targetFish.fish.givesMoney);
+
             Destroy(targetFish.gameObject); // Destroy fish that got eaten
 
             // This entire part is for feeding because the fish got eaten
@@ -432,7 +431,7 @@ public class FishMovement : MonoBehaviour
             if (actualFishSize >= 100 || actualFishSize <= 0)
             {
                 fishAlive = false;
-                shopManager.GetComponent<Shop>().moneyPerSecond -= fish.givesMoney;
+                UpdateMoneyPerSecond(-fish.givesMoney);
                 FishDies();
             }
 
@@ -483,6 +482,16 @@ public class FishMovement : MonoBehaviour
         {
             yield return new WaitForSeconds(25f);
             huntingCooldown = false;
+        }
+    }
+
+    void UpdateMoneyPerSecond(float amount)
+    {
+        shopManager.GetComponent<Shop>().moneyPerSecond += amount;
+        
+        if (shopManager.GetComponent<Shop>().moneyPerSecond < 0)
+        {
+            shopManager.GetComponent<Shop>().moneyPerSecond = 0;
         }
     }
 }
