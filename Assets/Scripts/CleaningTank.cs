@@ -110,9 +110,9 @@ public class CleaningTank : MonoBehaviour
         alreadyPaid = true;
         cleaningButton.interactable = false;
 
-        // Reducts cleaningCostAmount from money and increases cleaningCostAmount * 4
+        // Reducts cleaningCostAmount from money and increases cleaningCostAmount * 8
         shopManager.GetComponent<Shop>().money -= cleaningCostAmount;
-        cleaningCostAmount = cleaningCostAmount * 4;
+        cleaningCostAmount = cleaningCostAmount * 8;
         cleaningCostsText.text = "Next cleaning is due soon";
     }
 
